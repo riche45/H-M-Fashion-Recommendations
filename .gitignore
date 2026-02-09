@@ -1,0 +1,16 @@
+# ============================================================================
+# IGNORAR TODO - Este repositorio solo muestra el README del proyecto
+# ============================================================================
+
+# Ignorar absolutamente TODO
+*
+*/
+
+# ============================================================================
+# EXCEPCIONES - Solo permitir estos archivos
+# ============================================================================
+
+# Permitir .gitignore y README.md
+!.gitignore
+!README.md
+
