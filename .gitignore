@@ -7,10 +7,15 @@
 */
 
 # ============================================================================
-# EXCEPCIONES - Solo permitir estos archivos
+# EXCEPCIONES - Solo permitir estos archivos y carpetas
 # ============================================================================
 
 # Permitir .gitignore y README.md
 !.gitignore
 !README.md
+
+# Permitir carpeta de imágenes
+!images/
+!images/*
+!images/**/*
 

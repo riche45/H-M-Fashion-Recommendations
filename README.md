@@ -109,7 +109,129 @@ Este proyecto implementa un **sistema de recomendación completo** para e-commer
 
 ---
 
-## 🏗️ Arquitectura del Modelo
+## 📸 Visualizaciones
+
+### 🗺️ Análisis Geográfico
+
+**Top 20 Ciudades por Ventas Totales vs. Volumen de Compras**
+
+![Análisis Geográfico](images/ciudades_ventas.png)
+
+> **Insight**: Malmö Söder lidera tanto en ventas totales como en volumen de transacciones, confirmando su posición como el mercado más importante.
+
+---
+
+**Preferencias de Género por Ciudad (Heatmap)**
+
+![Heatmap Género](images/heatmap_genero.png)
+
+> **Insight**: Mjölby muestra la mayor preferencia por productos femeninos (93.1%), mientras que Malmö Söder tiene el mayor porcentaje de compras masculinas (12.9%).
+
+---
+
+### 📉 Entrenamiento del Modelo
+
+**Evolución de la Pérdida y Learning Rate Schedule**
+
+![Training Metrics](images/training_metrics.png)
+
+> **Nota**: El modelo utilizó OneCycleLR scheduler, logrando convergencia rápida en las primeras 5 épocas. El gap de overfitting se mantiene controlado gracias a weight decay y early stopping.
+
+---
+
+### 🎨 Embeddings y PCA
+
+**Productos en Espacio de Embeddings (75D → 2D)**
+
+![PCA Productos](images/pca_productos.png)
+
+> **Interpretación**: Los productos se agrupan en clusters naturales. Los puntos verdes (alto bias) son bestsellers, mientras que los rojos son productos de nicho. La proximidad indica similitud en patrones de compra.
+
+---
+
+**Productos por Categoría (Top 10)**
+
+![PCA Categorías](images/pca_categorias.png)
+
+> **Análisis**: Se observa separación parcial entre categorías. Productos de diferentes tipos que están cerca en el espacio se compran por usuarios similares (ej: "Trousers" cerca de "Blazers" indica outfits completos).
+
+---
+
+## 🎯 Ejemplo de Recomendaciones
+
+### Caso Real: Usuario con 407 Compras Previas
+
+```
+======================================================================
+👤 USUARIO:
+======================================================================
+   ID: b637a3e7d8b0caa947aaefd609b8d84a9ee962cf0a52a51bac507ffc2bf1b741
+   Productos ya comprados: 407
+   User Bias: 0.1938
+
+======================================================================
+🎯 TOP 20 RECOMENDACIONES PERSONALIZADAS:
+======================================================================
+
+ rank  article_id    score  product_type_name  colour_group_name  index_group_name
+    1   811835004 1.166480         Bikini top       Light Yellow        Ladieswear
+    2   759871002 1.163709           Vest top              Black           Divided
+    3   796210012 1.163158           Trousers     Greenish Khaki        Ladieswear
+    4   733749010 1.162992                Top              White           Divided
+    5   559630026 1.162714         Bikini top         Dark Green        Ladieswear
+    6   736530007 1.160453                Bra           Dark Red        Ladieswear
+    7   688537029 1.160077    Swimwear bottom         Other Pink        Ladieswear
+    8   759871001 1.160067           Vest top              White           Divided
+    9   684209013 1.159222         Bikini top         Dark Green        Ladieswear
+   10   720125001 1.158899    Leggings/Tights              Black             Sport
+   11   599580046 1.158891    Swimwear bottom               Blue        Ladieswear
+   12   684209027 1.158302         Bikini top                Red        Ladieswear
+   13   758002008 1.158147    Swimwear bottom              Black        Ladieswear
+   14   833530002 1.158041    Swimwear bottom          Dark Blue        Ladieswear
+   15   749699002 1.157257           Vest top          Off White        Ladieswear
+   16   691855012 1.157206              Skirt              Black           Divided
+   17   688537004 1.157115    Swimwear bottom              Black        Ladieswear
+   18   599580052 1.156641    Swimwear bottom              Black        Ladieswear
+   19   783346016 1.156629           Trousers     Greenish Khaki        Ladieswear
+   20   854619003 1.156520    Swimwear bottom          Off White        Ladieswear
+
+======================================================================
+📊 ANÁLISIS DE LAS RECOMENDACIONES:
+======================================================================
+
+Distribución por Género:
+   Ladieswear      → 15 productos ( 75.0%)
+   Divided         →  4 productos ( 20.0%)
+   Sport           →  1 productos (  5.0%)
+
+Historial del Usuario:
+   Ladieswear      → 345 veces ( 84.8%)
+   Divided         →  57 veces ( 14.0%)
+   Sport           →   4 veces (  1.0%)
+   Menswear        →   1 veces (  0.2%)
+
+======================================================================
+💡 EVALUACIÓN:
+======================================================================
+   Historial:        84.8% Ladieswear
+   Recomendaciones:  75.0% Ladieswear
+   Diferencia:       9.8%
+
+   ✅ ¡EXCELENTE! Recomendaciones coherentes con historial del usuario
+======================================================================
+```
+
+### ¿Por qué estas recomendaciones son buenas?
+
+1. **Coherencia con historial**: El usuario compra principalmente Ladieswear (84.8%), y el 75% de las recomendaciones son de esa categoría.
+
+2. **Diversificación inteligente**: El modelo recomienda también Divided (20%) y Sport (5%), alineado con las compras secundarias del usuario.
+
+3. **Productos relacionados**: Predominan bikinis, swimwear y ropa de verano, sugiriendo un patrón de compra estacional coherente.
+
+4. **Score alto**: Todos los productos tienen score >1.15, indicando alta probabilidad de compra según el modelo.
+
+---
 
 ### Modelo de Collaborative Filtering
 
@@ -214,7 +336,6 @@ PCA Visualization (75D → 2D)
 ### Paso 2: Crear Entorno Virtual
 
 ### Paso 3: Instalar Dependencias
-
 
 **requirements.txt:**
 ```
